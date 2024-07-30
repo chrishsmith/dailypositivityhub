@@ -2,17 +2,14 @@ document.addEventListener("DOMContentLoaded", function() {
     const quoteElement = document.getElementById("quote");
     const navLinks = document.querySelectorAll("nav ul li a");
 
-    // Fetch a random quote from the They Said So API
     async function fetchRandomQuote() {
         try {
-            const response = await fetch("https://quotes.rest/qod?category=inspire");
+            const response = await fetch("/.netlify/functions/random-quote");
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-            const quote = data.contents.quotes[0];
-            console.log("Fetched quote:", quote); // Debugging line
-            return { content: quote.quote, author: quote.author };
+            return data;
         } catch (error) {
             console.error("Error fetching quote:", error);
             return { content: "Stay positive and keep pushing forward.", author: "Unknown" };
@@ -63,9 +60,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Fetch quotes and show the default section
     showSection('quotes');
-
-    // Make showSection function globally available
     window.showSection = showSection;
 });
